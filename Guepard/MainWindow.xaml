@@ -1,0 +1,438 @@
+﻿<Window x:Name="Window" x:Class="Guepard.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d"
+        Title="Блок 204ГБ01УК - технологическое управление v1.4.1" Loaded="Window_Loaded" Closed="Window_Closed" MinWidth="800" MinHeight="600" Width="800" Height="600">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="409*"/>
+            <ColumnDefinition Width="129*"/>
+            <ColumnDefinition Width="254*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition MinHeight="320"/>
+            <RowDefinition MaxHeight="45"/>
+            <RowDefinition MinHeight="55"/>
+        </Grid.RowDefinitions>
+        <TabControl   Background="White" Grid.ColumnSpan="3" Margin="0" >
+            <TabItem Header="Диагностика">
+                <Grid HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition MaxHeight="40"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.RowSpan="1">
+                        <Label Content="Байт сообщения #1:" />
+                        <TextBox x:Name="MessageN1Box" IsReadOnly="True" Text="0x00" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" />
+                        <Label Content="Байт сообщения #2:" />
+                        <TextBox x:Name="MessageN2Box" IsReadOnly="True" Text="0x00" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
+                    </StackPanel>
+                    <StackPanel Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Label Content="Частота передачи MHz:"></Label>
+                        <xctk:IntegerUpDown x:Name="TransmitFreq" FormatString="N0" Value="2800" Increment="1" Minimum="2800"  Maximum="3200" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" MinWidth="60" MinHeight="30"/>
+                        <Label Content="Частота приема MHz:"></Label>
+                        <xctk:IntegerUpDown x:Name="ReceiverFreq" FormatString="N0" Value="2800" Increment="1" Minimum="2800" Maximum="3200" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" MinWidth="60" MinHeight="30"/>
+                        <Label Content="Частота общая MHz:"></Label>
+                        <xctk:IntegerUpDown x:Name="CommonFreq" FormatString="N0" Value="2800" Increment="1" Minimum="2800" Maximum="3200" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" MinWidth="60" MinHeight="30" ValueChanged="CommonFreq_ValueChanged"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Label Content="Адрес получателя(hex):"></Label>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Label Content="0x" FlowDirection="RightToLeft"></Label>
+                            <ComboBox x:Name="ReceiverAdress" Grid.Column="1" SelectedIndex="0" HorizontalContentAlignment="Center" Width="50" >
+                                <ComboBoxItem >05</ComboBoxItem>
+                                <ComboBoxItem >06</ComboBoxItem>
+                            </ComboBox>
+                        </Grid>
+
+                        <Label Content="Адрес отправителя(hex):"></Label>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Label Content="0x" FlowDirection="RightToLeft"></Label>
+                            <ComboBox x:Name="SenderAdress" SelectedIndex="0" HorizontalContentAlignment="Center" Grid.Column="1" Width="50">
+                                <ComboBoxItem >14</ComboBoxItem>
+                                <ComboBoxItem >21</ComboBoxItem>
+                                <ComboBoxItem >22</ComboBoxItem>
+                            </ComboBox>
+                        </Grid>
+                    </StackPanel>
+                    <Button x:Name="DiagButton" Content="Диагностика" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="100" MinHeight="30" Grid.Row="1" Grid.Column="1" Margin="0,10,0,0" Click="DiagButton_Click"/>
+
+                    <CheckBox x:Name="DiagCycleCb" Grid.Row="1" Grid.Column="2" Content="Цикл" HorizontalAlignment="Left" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Margin="0,10,0,0" Checked="DiagCycleCB_Checked" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="Управление">
+                <Grid Background="White" OpacityMask="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200"></ColumnDefinition>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <GroupBox  Header="Отправка сообщения" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" BorderBrush="Black" Margin="5" Padding="5">
+                        <StackPanel>
+                            <StackPanel  Margin="0"  Orientation="Horizontal">
+                                <Button x:Name="ControlButton"  Content="Отправить" MinWidth="100" MinHeight="30" VerticalAlignment="Center" HorizontalAlignment="Center" Click="ControlButton_Click" Margin="0,0,5,0"  />
+                                <CheckBox x:Name="ControlCycleCb" HorizontalAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Content="Цикл" Margin="0" Checked="ControlCycleCB_Checked" HorizontalContentAlignment="Center" />
+                            </StackPanel>
+                            <Button x:Name="SetControlButton"  Content="Изменить  сообщения" MinWidth="100" MinHeight="30" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,5,0,0" Click="SetControlButton_Click"  />
+                            <StackPanel Margin="0">
+                                <RadioButton x:Name="RadioBfkm" Content="Работа - сигнал ФКМ" IsChecked="True"/>
+                                <RadioButton x:Name="RadioBks1" Content="Выравнивание (КС1)" />
+                                <RadioButton x:Name="RadioBks2" Content="Выравнивание (КС2)" />
+                                <RadioButton x:Name="RadioBks1Ks2" Content="Выравнивание (КС1 + КС2)" />
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Grid.Row="0" Grid.RowSpan="2"  Header="Эмуляция управления" Grid.Column="1" BorderBrush="Black" Margin="5" Padding="5" VerticalAlignment="Center">
+                        <StackPanel>
+                            <Button x:Name="WorkOnButton" Content="Пуск" MinHeight="30" Click="WorkOnButton_Click"  />
+                            <Button x:Name="WorkOffButton" Content="Стоп"  MinHeight="30" Click="WorkOffButton_Click" Margin="0,5,0,0" />
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox  Header="Список сообщений" Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" BorderBrush="Black" Margin="5" Padding="5">
+                        <StackPanel Margin="0">
+                            <StackPanel Orientation="Horizontal">
+                                <Button x:Name="CMessageButton1" Content="Сообщение 1" MinWidth="100" MinHeight="30" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,5,0" Click="CMessageButton1_Click"  />
+                                <CheckBox x:Name="CbMessage1Cycle" HorizontalAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Content="Цикл" Margin="0" Checked="CMcycle" HorizontalContentAlignment="Center" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Button x:Name="CMessageButton2" Content="Сообщение 2" MinWidth="100" MinHeight="30" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,5,5,0" Click="CMessageButton2_Click"  />
+                                <CheckBox x:Name="CbMessage2Cycle" HorizontalAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Content="Цикл" Margin="0" Checked="CMcycle" HorizontalContentAlignment="Center" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Button x:Name="CMessageButton3" Content="Сообщение 3" MinWidth="100" MinHeight="30" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,5,5,0" Click="CMessageButton3_Click"  />
+                                <CheckBox x:Name="CbMessage3Cycle" HorizontalAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Content="Цикл" Margin="0" Checked="CMcycle" HorizontalContentAlignment="Center" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Button x:Name="CMessageButton4" Content="Сообщение 4" MinWidth="100" MinHeight="30" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,5,5,0" Click="CMessageButton4_Click"  />
+                                <CheckBox x:Name="CbMessage4Cycle" HorizontalAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Content="Цикл" Margin="0" Checked="CMcycle" HorizontalContentAlignment="Center" />
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Тест">
+                <Grid Background="White" OpacityMask="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <GroupBox  Header="Тест связи с usb" Grid.Column="0" BorderBrush="Black" Margin="5" Padding="5">
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Button x:Name="TestButton" Content="Тест" FontSize="16" HorizontalContentAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" MinWidth="80" MinHeight="40" Click="TestButton_Click" Margin="0,0,10,0" FontFamily="Segoe UI Emoji" />
+                            <CheckBox x:Name="TestCycleCb" Content="Цикл" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Checked="TestCycleCB_Checked" Margin="0,5,0,0" />
+                        </StackPanel>
+                    </GroupBox>
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="Калибровка"  IsEnabled="true">
+
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Center" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition MinHeight="35"/>
+                        <RowDefinition MinHeight="120"/>
+                        <RowDefinition MaxHeight="50"/>
+                        <RowDefinition MinHeight="100"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition MinWidth="150"/>
+                        <ColumnDefinition MinWidth="80"/>
+                        <ColumnDefinition MinWidth="60"/>
+                        <ColumnDefinition MinWidth="60"/>
+                        <ColumnDefinition MinWidth="75"/>
+                        <ColumnDefinition MinWidth="175"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition MinWidth="75"/>
+                        <ColumnDefinition MinWidth="70"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.RowSpan="2">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Частота MHz:"></Label>
+                            <xctk:IntegerUpDown x:Name="CalibFreq" FormatString="N0" AllowTextInput="False"  Value="2805" Increment="10" Minimum="2805"  Maximum="3200" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" MinWidth="60" MinHeight="30" ValueChanged="CalibFreq_ValueChanged"/>
+                        </StackPanel>
+                        <CheckBox x:Name="SearchInFile" Content="Поиск по частоте/темп" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Checked="SearchInFile_Checked" Unchecked="SearchInFile_Unchecked" />
+                        <Button x:Name="SetCalibFreqButton" Content="Установить частоту" Margin="0,5,0,0" MinHeight="30" Click="SetCalibFreqButton_Click" />
+                        <CheckBox x:Name="CalibCycle" Content="Цикл для темп." Margin="0,6,0,0" HorizontalAlignment="Center" Checked="CalibCycle_Checked" Unchecked="CalibCycle_Unchecked" />
+                        <CheckBox x:Name="WatchTemp" Content="Проверка темп." Margin="0,6,0,0" HorizontalAlignment="Center" IsChecked="True" />
+                    </StackPanel>
+                    <StackPanel Grid.Row="2" Grid.Column="0" Grid.RowSpan="2">
+                        <Button x:Name="ChooseFileButton1" Content="Выбрать файл блока3" Click="ChooseFileButton1_Click" Margin="0,0,5,0" />
+                        <Button x:Name="ChooseFileButton2" Content="Выбрать файл блока4" Click="ChooseFileButton2_Click" Margin="0,2,5,0" />
+                        <Button x:Name="SortingButton" Content="Сортировать файл" Click="SortingButton_Click" Margin="0,2,5,0" />
+                        <Button x:Name="SearchButton" Content="Поиск и перезапись стр." Click="SearchButton_Click" Margin="0,2,5,0" />
+                        <Button x:Name="UnionButton" Content="Объединить файлы" Margin="0,2,5,0" Click="UnionButton_Click" />
+                        <Button x:Name="Block110DbButton" Content="Ослабление" Margin="0,2,5,0" Click="Block1_10DbButton_Click"  />
+                    </StackPanel>
+                    <Label Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="8" Content="Блок 3" FontWeight="Bold" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" FontSize="15" />
+                    <Button x:Name="PatternBlock3Button" Content="Шаблон" Grid.Row="0" Grid.Column="1" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="5,15,0,0" Width="66" Height="30" Click="PatternBlock3Button_Click" Grid.RowSpan="2" VerticalContentAlignment="Center" />
+                    <Label Grid.Column="1" Grid.ColumnSpan="8" Content="Блок 4" FontWeight="Bold" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" FontSize="15" Grid.Row="2" />
+                    <Button x:Name="PatternBlock4Button" Content="Шаблон" Grid.Row="2" Grid.Column="1" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,5,0,0" Width="66" Height="30" Click="PatternBlock4Button_Click" />
+                    <StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <!--<Label x:Name="TemperatureBlock1Lb" Content="0" Foreground="Green"></Label>-->
+                            <TextBox x:Name="TemperatureBlock1Lb1" IsReadOnly="true" Foreground="Green" Text="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" Width="40" Height="25" TextChanged="TemperatureBlock1Lb1_TextChanged"/>
+                            <Label Content="°C" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Label>
+                        </StackPanel>
+                        <StackPanel>
+                            <xctk:IntegerUpDown x:Name="TempManuallyBlock1Iud" FormatString="N0" AllowTextInput="false"  Value="0" Increment="5" Minimum="-50"  Maximum="70" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" MinWidth="60" MinHeight="30" Foreground="Red" ValueChanged="TempManually1_ValueChanged"/>
+                            <CheckBox x:Name="UseManuallyTemp1Cb" Content="Темп. руч." Margin="0,6,0,0" Checked="UseManuallyTemp1Cb_Checked" Unchecked="UseManuallyTemp1Cb_Unchecked" />
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBox x:Name="TemperatureBlock2Lb2" IsReadOnly="true" Foreground="Green" Text="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" Width="40" Height="25" TextChanged="TemperatureBlock2Lb2_TextChanged"/>
+                            <Label Content="°C" Margin="0,5,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></Label>
+                        </StackPanel>
+                        <StackPanel>
+                            <xctk:IntegerUpDown x:Name="TempManuallyBlock2Iud" FormatString="N0" AllowTextInput="false"  Value="0" Increment="5" Minimum="-50"  Maximum="70" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" MinWidth="60" MinHeight="30" Foreground="Red" ValueChanged="TempManually2_ValueChanged"/>
+                            <CheckBox x:Name="UseManuallyTemp2Cb" Content="Темп. руч." Margin="0,5,0,0" Checked="UseManuallyTemp2Cb_Checked" Unchecked="UseManuallyTemp2Cb_Unchecked" />
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" Grid.Column="2"  HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label x:Name="FhLabel" Content="At F нес." HorizontalAlignment="Left" MouseDoubleClick="FhLabel_MouseDoubleClick" MouseEnter="Label_MouseEnter" MouseLeave="Label_MouseLeave"></Label>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label x:Name="Ks1Label" Content="At КС1" MouseEnter="Label_MouseEnter" MouseLeave="Label_MouseLeave" MouseDoubleClick="Ks1Label_MouseDoubleClick"></Label>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label x:Name="Ks2Label" Content="At КС2" MouseEnter="Label_MouseEnter" MouseLeave="Label_MouseLeave" MouseDoubleClick="Ks2Label_MouseDoubleClick"></Label>
+                            </StackPanel>
+                        </StackPanel>
+
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <StackPanel Orientation="Horizontal">
+                            <Label x:Name="GetLabel" Content="At F гет." Margin="0,5,0,0" MouseEnter="Label_MouseEnter" MouseLeave="Label_MouseLeave" MouseDoubleClick="GetLabel_MouseDoubleClick"></Label>
+                        </StackPanel>
+
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" Grid.Column="3"  HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <xctk:IntegerUpDown x:Name="AtFNes" FormatString="G" Value="0" Increment="1" Minimum="0"  Maximum="4095" HorizontalAlignment="Right" HorizontalContentAlignment="Center" VerticalAlignment="Center" MinWidth="60" MinHeight="30" Margin="0"/>
+                        <xctk:IntegerUpDown x:Name="AtKs10"  Focusable="True" FormatString="G" Value="0" Increment="1" Minimum="0"  Maximum="4095" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" MinWidth="60" MinHeight="30" Margin="0" ValueChanged="AtKs10_ValueChanged" GotFocus="GotFocus"/>
+                        <xctk:IntegerUpDown x:Name="AtKs20" FormatString="G" Value="0" Increment="1" Minimum="0"  Maximum="4095" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" MinWidth="60" MinHeight="30" Margin="0" ValueChanged="AtKs20_ValueChanged" GotFocus="GotFocus"/>
+                    </StackPanel>
+                    <xctk:IntegerUpDown x:Name="AtFGet0" FormatString="G" Value="0" Increment="1" Minimum="0"  Maximum="4095" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" MinWidth="60" MinHeight="30" Grid.Column="3" Grid.Row="3" Margin="0,5,0,0" ValueChanged="AtFGet0_ValueChanged" GotFocus="GotFocus"/>
+                    <Button x:Name="Block10DbButton" Content="Установить" Margin="5,0,0,0" Grid.Row="1" Grid.Column="4" Click="Block1_0DbButton_Click" Width="67" Height="75"  />
+                    <Button x:Name="Block20DbButton" Content="Установить" Margin="5,5,0,0" Grid.Column="4" Grid.Row="3" Click="Block2_0DbButton_Click" Width="67" Height="75"  />
+
+                    <StackPanel Grid.Row="1" Grid.Column="6"  HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,30,0,0">
+                        <xctk:IntegerUpDown Visibility="Collapsed" x:Name="AtKs110" FormatString="G" Value="0" Increment="1" Minimum="0"  Maximum="4095" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" MinWidth="60" MinHeight="30"/>
+                        <xctk:IntegerUpDown Visibility="Collapsed" x:Name="AtKs210" FormatString="G" Value="0" Increment="1" Minimum="0"  Maximum="4095" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" MinWidth="60" MinHeight="30"/>
+
+                    </StackPanel>
+                    <xctk:IntegerUpDown Visibility="Collapsed" x:Name="AtFGet6" FormatString="G" Value="0" Increment="1" Minimum="0"  Maximum="4095" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" MinWidth="60" MinHeight="30" Grid.Column="6" Grid.Row="3" Margin="0,5,0,0"/>
+                    <StackPanel Grid.Row="1" Grid.Column="5">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="80,0,0,0">
+                                <xctk:DoubleUpDown x:Name="Ks1HelpDb" FormatString="F1" AllowTextInput="false"  Value="0" Increment="0.5" Minimum="-10"  Maximum="0" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" Margin="0
+                                                   ,0,0,0" ValueChanged="help_Db_ValueChanged"/>
+                                <Button x:Name="Ks1HelpDbButton" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Запис." Click="Ks1_help_Db_button_Click" />
+                            </StackPanel>
+
+
+                            <StackPanel Margin="0,0,0,0" Orientation="Horizontal">
+                                <Label Visibility="Collapsed" Content="-10 Дб" HorizontalContentAlignment="Center" HorizontalAlignment="Right" VerticalContentAlignment="Center" VerticalAlignment="Center"></Label>
+                                <Label Visibility="Collapsed" Content="-10 Дб" HorizontalContentAlignment="Center" HorizontalAlignment="Right" VerticalContentAlignment="Center" VerticalAlignment="Center" Margin="0,8,0,0"></Label>
+                                <Label Content="-" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" FontSize="20" />
+                                <xctk:IntegerUpDown x:Name="Ks1Wick" Focusable="True"  FormatString="G" Value="0" Increment="1" Minimum="0"  Maximum="4095" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" MinWidth="60" MinHeight="30" Margin="0,5,0,0" ValueChanged="AtKs10_ValueChanged" GotFocus="GotFocus"/>
+                                <Label Content="=" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" FontSize="20" />
+                                <xctk:IntegerUpDown x:Name="Ks1Delta" Focusable="True" FormatString="G" Value="0" Increment="1" Minimum="0"  Maximum="4095" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" MinWidth="60" MinHeight="30" Margin="0,5,0,0" ValueChanged="Ks1_delta_ValueChanged" GotFocus="GotFocus"/>
+                            </StackPanel>
+                            <StackPanel Margin="80,0,0,0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <xctk:DoubleUpDown x:Name="Ks2HelpDb" FormatString="F1" AllowTextInput="false"  Value="0" Increment="0.5" Minimum="-10"  Maximum="0" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" ValueChanged="help_Db_ValueChanged"/>
+                                <Button x:Name="Ks2HelpDbButton" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Запис." Click="Ks2_help_Db_button_Click" />
+                            </StackPanel>
+
+                            <StackPanel Margin="0,0,0,0" Orientation="Horizontal">
+                                <Label Visibility="Collapsed" Content="-10 Дб" HorizontalContentAlignment="Center" HorizontalAlignment="Right" VerticalContentAlignment="Center" VerticalAlignment="Center"></Label>
+                                <Label Visibility="Collapsed" Content="-10 Дб" HorizontalContentAlignment="Center" HorizontalAlignment="Right" VerticalContentAlignment="Center" VerticalAlignment="Center" Margin="0,8,0,0"></Label>
+                                <Label Content="-" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" FontSize="20" />
+                                <xctk:IntegerUpDown x:Name="Ks2Wick"  FormatString="G" Value="0" Increment="1" Minimum="0"  Maximum="4095" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" MinWidth="60" MinHeight="30" Margin="0,5,0,0" ValueChanged="AtKs20_ValueChanged" GotFocus="GotFocus"/>
+                                <Label Content="=" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" FontSize="20" />
+                                <xctk:IntegerUpDown x:Name="Ks2Delta"  FormatString="G" Value="0" Increment="1" Minimum="0"  Maximum="4095" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" MinWidth="60" MinHeight="30" Margin="0,5,0,0" ValueChanged="Ks2_delta_ValueChanged" GotFocus="GotFocus"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Margin="0,20,0,0" Orientation="Horizontal">
+                            <Label Visibility="Collapsed" Content="-10 Дб" HorizontalContentAlignment="Center" HorizontalAlignment="Right" VerticalContentAlignment="Center" VerticalAlignment="Center"></Label>
+                            <Label Visibility="Collapsed" Content="-10 Дб" HorizontalContentAlignment="Center" HorizontalAlignment="Right" VerticalContentAlignment="Center" VerticalAlignment="Center" Margin="0,8,0,0"></Label>
+                            <Label Content="-" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" FontSize="20" />
+                            <xctk:IntegerUpDown  FormatString="G" Value="0" Increment="1" Minimum="0"  Maximum="4095" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" MinWidth="60" MinHeight="30" Margin="0,5,0,0"/>
+                            <Label Content="=" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" FontSize="20" />
+                            <xctk:IntegerUpDown  FormatString="G" Value="0" Increment="1" Minimum="0"  Maximum="4095" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" MinWidth="60" MinHeight="30" Margin="0,5,0,0"/>
+                        </StackPanel>
+                        <StackPanel Margin="0,0,0,0" Orientation="Horizontal">
+                            <Label Visibility="Collapsed" Content="-10 Дб" HorizontalContentAlignment="Center" HorizontalAlignment="Right" VerticalContentAlignment="Center" VerticalAlignment="Center"></Label>
+                            <Label Visibility="Collapsed" Content="-10 Дб" HorizontalContentAlignment="Center" HorizontalAlignment="Right" VerticalContentAlignment="Center" VerticalAlignment="Center" Margin="0,8,0,0"></Label>
+                            <Label Content="-" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" FontSize="20" />
+                            <xctk:IntegerUpDown  FormatString="G" Value="0" Increment="1" Minimum="0"  Maximum="4095" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" MinWidth="60" MinHeight="30" Margin="0,5,0,0"/>
+                            <Label Content="=" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" FontSize="20" />
+                            <xctk:IntegerUpDown  FormatString="G" Value="0" Increment="1" Minimum="0"  Maximum="4095" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" MinWidth="60" MinHeight="30" Margin="0,5,0,0"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Grid.Column="5" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <StackPanel Margin="80,0,0,0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <xctk:DoubleUpDown x:Name="GetHelpDb" FormatString="F1" AllowTextInput="false"  Value="0" Increment="0.5" Minimum="-6"  Maximum="0" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" ValueChanged="help_Db_ValueChanged"/>
+                            <Button x:Name="GetHelpDbButton" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Запис." Click="Get_help_Db_button_Click" />
+                        </StackPanel>
+                        <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Label Visibility="Collapsed" Content="- 6 Дб"  Margin="0,5,0,0" HorizontalContentAlignment="Center" HorizontalAlignment="Right" VerticalContentAlignment="Center" VerticalAlignment="Center"></Label>
+                            <Label Content="-" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" FontSize="20" />
+                            <xctk:IntegerUpDown x:Name="GetWick"  FormatString="G" Value="0" Increment="1" Minimum="0"  Maximum="4095" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" MinWidth="60" MinHeight="30" Margin="0,5,0,0" ValueChanged="AtFGet0_ValueChanged" GotFocus="GotFocus"/>
+                            <Label Content="=" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" FontSize="20" />
+                            <xctk:IntegerUpDown x:Name="GetDelta"  FormatString="G" Value="0" Increment="1" Minimum="0"  Maximum="4095" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" MinWidth="60" MinHeight="30" Margin="0,5,0,0" ValueChanged="Get_delta_ValueChanged" GotFocus="GotFocus"/>
+                        </StackPanel>
+
+                    </StackPanel>
+                    <StackPanel  Grid.Row="1" Grid.Column="7" HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                        <Button x:Name="Block10DbButton1" Content="Установить" Margin="5,0,0,0" Width="67" Height="30" Click="Block10DbButton1_Click"  />
+
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="7" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Button x:Name="Block26DbButton" Visibility="Collapsed" Content="Ослаб." Margin="5,5,0,0"  Click="Block2_6DbButton_Click" Width="67" Height="30"  />
+                        <Button x:Name="Block20DbButton1" Content="Установить" Margin="5,0,0,0" Width="67" Height="30" Click="Block20DbButton1_Click"  />
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1" Grid.Column="8" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Button x:Name="SaveBlock1Button" Content="Сохранить" Margin="5,0,0,0" MinHeight="29" Click="SaveBlock1Button_Click" HorizontalAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Height="57" />
+                        <CheckBox x:Name="AutoSortCbBlock3" IsChecked ="True" Content="Авт. сорт." />
+                    </StackPanel>
+                    <StackPanel Grid.Column="8" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Button x:Name="SaveBlock2Button" Content="Сохранить" Margin="5,5,0,0" MinHeight="30" Click="SaveBlock2Button_Click" HorizontalAlignment="Center" VerticalAlignment="Center" Height="57" />
+                        <CheckBox x:Name="AutoSortCbBlock4" IsChecked ="True"  Content="Авт. сорт." />
+                    </StackPanel>
+
+
+
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Загрузка"  IsEnabled="true">
+                <Grid VerticalAlignment="Center" HorizontalAlignment="Center" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition />
+                        <RowDefinition/>
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5" Grid.Column="1">
+                        <RadioButton x:Name="RbWriteEeprom" Content="Запись" IsChecked="True" Checked="RBWriteEEPROM_Checked" />
+                        <RadioButton x:Name="RbCheckEeprom" Content="Проверка" Checked="RBCheckEEPROM_Checked" />
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5" Grid.Column="0">
+                        <RadioButton x:Name="StandartFile" Content="Обычный" IsChecked="True" />
+                        <RadioButton x:Name="WeaknessFile" Content="Ослабление" />
+                    </StackPanel>
+                    <Button x:Name="StartWriteButton" Content="Старт" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MinWidth="50" MinHeight="30" Click="StartWriteButton_Click" Grid.Row="2"
+                            Grid.Column="0" Margin="0,5,0,0" />
+                    <Button x:Name="StopWriteButton" Grid.Row="3" Grid.Column="0" Content="Стоп" MinWidth="50" MinHeight="30" Margin="0,5,0,0" Click="StopWriteButton_Click" />
+                    <Button x:Name="FileChooseButton" Content="Выберите файл" Margin="0" Grid.Row="0" Grid.ColumnSpan="2"
+                            Grid.Column="0" MinWidth="150" MinHeight="30" Click="FileChooseButton_Click" />
+                    <xctk:IntegerUpDown x:Name="StringNumberBox" FormatString="N0" AllowTextInput="True"  Value="1" Increment="1" Minimum="1"  Maximum="1025" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" MinWidth="60" MinHeight="30" Grid.Column="1" Margin="5,5,0,0" Grid.Row="2" Grid.RowSpan="2"/>
+                    <ProgressBar x:Name="UploadBar" Grid.Row="4" Grid.ColumnSpan="2" Grid.Column="0" Height="18"  Margin="0,10,0,0" Minimum="0"  Maximum="100" Value="0" Width="170" />
+                </Grid>
+            </TabItem>
+
+
+            <TabItem Header="Неоперативное управление">
+                <Grid VerticalAlignment="Center" HorizontalAlignment="Center" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition />
+                        <RowDefinition/>
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="Ат. КС1" VerticalContentAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Margin="0,0,10,0" />
+                    <xctk:DoubleUpDown x:Name="Ks1CoefBox"  FormatString="F1"  AllowTextInput="false"  Value="0" Increment="0.5" Minimum="-10"  Maximum="0" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" MinWidth="60" MinHeight="30" Grid.Row="1"
+                                       Grid.Column="0" Margin="0,0,10,0"/>
+                    <Label Content="Ат. КС2" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Margin="0,0,10,0" />
+                    <xctk:DoubleUpDown x:Name="Ks2CoefBox"  FormatString="F1" AllowTextInput="false"  Value="0" Increment="0.5" Minimum="-10"  Maximum="0" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" MinWidth="60" MinHeight="30" Grid.Row="1" Grid.Column="1" Margin="0,0,10,0"/>
+                    <Label Content="Ат. Гет." Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" />
+                    <xctk:DoubleUpDown x:Name="GetterCoefBox"  FormatString="F1" AllowTextInput="false"  Value="0" Increment="0.5" Minimum="-6"  Maximum="0" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" MinWidth="60" MinHeight="30" Grid.Row="1" Grid.Column="2"/>
+                    <StackPanel Grid.Row="2" Grid.Column="0" Margin="0,10,0,0" Orientation="Horizontal" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Button x:Name="WriteCoefDbButton" Content="Записать" Margin="0,0,5,0" MinWidth="80" MinHeight="40" Click="WriteCoefDbButton_Click" />
+                        <Button x:Name="ReadCoefDbButton" Content="Прочитать" Margin="5,0,0,0" MinWidth="80" MinHeight="40" Click="ReadCoefDbButton_Click" />
+                    </StackPanel>
+
+
+                </Grid>
+            </TabItem>
+
+        </TabControl>
+        <Grid Grid.Row="1" Margin="92,0,96,0" HorizontalAlignment="Center" Grid.ColumnSpan="3" Grid.Column="0"
+              VerticalAlignment="Top" Width="604" >
+            <Grid.RowDefinitions>
+                <RowDefinition MinHeight="30"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition MinWidth="75" Width="75*"/>
+                <ColumnDefinition MinWidth="75" Width="75*"/>
+                <ColumnDefinition MinWidth="75" Width="75*"/>
+                <ColumnDefinition MinWidth="75" Width="75*"/>
+                <ColumnDefinition MinWidth="100" Width="100*"/>
+                <ColumnDefinition MinWidth="120" Width="120*"/>
+                <ColumnDefinition MinWidth="70" Width="70*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label x:Name="Label1" Content="VID(HEX):" FontSize="14" Grid.Column="0" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Height="29" Margin="4,8,3,8" Width="68"/>
+            <TextBox x:Name="VendorIdBox" Grid.Column="1" Text="03EB" Width="50" Height="30" Margin="13,8,12,7" FontSize="16" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MaxLength="4" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <Label Content="PID(HEX):" Grid.Column="2" FontSize="14" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Height="29" Margin="4,8,3,8" Width="68" />
+            <TextBox x:Name="ProductIdBox" Grid.Column="3"  Text="3110" Width="50" Height="30" Margin="17,8,8,7" FontSize="16" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MaxLength="4" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <Button x:Name="ConnectionButton" Grid.Column="4" Margin="26,10,14,10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="Reset" Click="ConnectionButton_Click" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="60" FontFamily="Showcard Gothic" Height="25" Width="60" />
+            <TextBlock x:Name="ConnectionTBlock" Grid.Column="5" Margin="10,14,10,15" TextWrapping="Wrap" Text="Нет подключения" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" TextDecorations="{x:Null}" Height="16" Width="100"/>
+            <Button x:Name="DeleteLog" Content="Очистить" Grid.Column="6" Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="65" MinHeight="30" Click="DeleteLog_Click" Height="25"></Button>
+
+        </Grid>
+        <RichTextBox x:Name="LogBox"  Grid.Row="2" HorizontalAlignment="Stretch" IsReadOnly="True" HorizontalScrollBarVisibility="Auto" TextChanged="LogBox_TextChanged" VerticalScrollBarVisibility="Auto" MinHeight="50" Grid.ColumnSpan="3"
+                     Grid.Column="0" VerticalContentAlignment="Stretch" Margin="0,0,0,55" FontSize="11">
+            <FlowDocument>
+                <Paragraph>
+                    <Run Text="Log:"/>
+                </Paragraph>
+            </FlowDocument>
+            <RichTextBox.Resources>
+                <Style TargetType="{x:Type Paragraph}">
+                    <Setter Property="Margin" Value="0"/>
+                </Style>
+            </RichTextBox.Resources>
+        </RichTextBox>
+
+    </Grid>
+</Window>

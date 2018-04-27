@@ -1,0 +1,77 @@
+﻿<Window x:Name="SearchWindow1" x:Class="Guepard.SearchWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d"
+        Title="Поиск" Height="362.126" Width="662.943" MinWidth="662.943" MinHeight="362.126" Closed="SearchWindow1_Closed">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition MaxHeight="60"/>
+            <RowDefinition MaxHeight="80"/>
+        </Grid.RowDefinitions>
+        <DataGrid x:Name="DataFromFile" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" SizeChanged="DataFromFile_SizeChanged" MouseDoubleClick="DataFromFile_MouseDoubleClick" CellEditEnding="DataFromFile_CellEditEnding" CurrentCellChanged="DataFromFile_CurrentCellChanged"/>
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+            <Grid>
+                <xctk:IntegerUpDown x:Name="FreqSearch" FormatString="N0" AllowTextInput="False"  Value="2805" Increment="10" Minimum="2805"  Maximum="3200" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" MinWidth="60" MinHeight="30" ValueChanged="FreqSearch_ValueChanged"/>
+                <xctk:IntegerUpDown x:Name="MinTemp" FormatString="N0" AllowTextInput="True"  Value="0" Increment="1" Minimum="-50"  Maximum="70" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" MinWidth="60" MinHeight="30" Margin="60,0,120,0" ValueChanged="MinTemp_ValueChanged"/>
+                <TextBlock x:Name="TxBlock" Text="-" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="30,0,0,5" />
+                <xctk:IntegerUpDown x:Name="MaxTemp" FormatString="N0" AllowTextInput="True"  Value="0" Increment="1" Minimum="-50"  Maximum="70" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" MinWidth="60" MinHeight="30" Margin="120,0,0,0" ValueChanged="MaxTemp_ValueChanged"/>
+            </Grid>
+            <ComboBox x:Name="WhatSearchCb" Margin="5,0,0,0" SelectedIndex="2" VerticalContentAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Stretch" SelectionChanged="WhatSearchCB_SelectionChanged" MinWidth="100" >
+                <ComboBoxItem Content="Частота"/>
+                <ComboBoxItem Content="Температура"/>
+                <ComboBoxItem Content="Без фильтров"/>
+            </ComboBox>
+            <Button x:Name="SearchButton" Content="Поиск" HorizontalAlignment="Center" Margin="5,0,0,0" VerticalAlignment="Center" Width="75" Click="SearchButton_Click"/>
+            <Button x:Name="DefaultButton" Content="Сброс" HorizontalAlignment="Center" Margin="5,0,0,0" VerticalAlignment="Center" Width="75" Click="DefaultButton_Click"/>
+            <Button x:Name="WriteTable" Content="Записать" HorizontalAlignment="Center" Margin="5,0,0,0" VerticalAlignment="Center" Width="75" Click="WriteTable_Click"/>
+        </StackPanel>
+        <StackPanel Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+
+            <StackPanel>
+                <Label x:Name="RewriteFromLabel" Content="Из частоты:" HorizontalAlignment="Center" HorizontalContentAlignment="Center" MinWidth="71" />
+                <xctk:IntegerUpDown x:Name="DataFromFreqIud"  FormatString="N0" AllowTextInput="False" Value="2805" Increment="10" Minimum="2805"  Maximum="3200" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" MinWidth="60" MinHeight="30" ValueChanged="DataFromFreqIUD_ValueChanged"/>
+            </StackPanel>
+            <StackPanel>
+                <Label x:Name="RewriteToLabel" Content="В частоту:" HorizontalAlignment="Center" HorizontalContentAlignment="Center" MinWidth="60" />
+                <xctk:IntegerUpDown x:Name="DataToFreqIud"  FormatString="N0" AllowTextInput="False" Value="2805" Increment="10" Minimum="2805"  Maximum="3200" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" MinWidth="60" MinHeight="30" ValueChanged="DataFromFreqIUD_ValueChanged"/>
+            </StackPanel>
+            <StackPanel>
+                <Label x:Name="F0Label" Content="F0" HorizontalAlignment="Center" HorizontalContentAlignment="Center" MinWidth="60" />
+                <xctk:IntegerUpDown x:Name="FhData" AllowSpin="False" ShowButtonSpinner="False" FormatString="N0" AllowTextInput="True"  Value="0" Minimum="-4095"  Maximum="4095" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" MinWidth="40" MinHeight="30" MaxWidth="30" MaxHeight="30" ValueChanged="Data_ValueChanged"/>
+            </StackPanel>
+            <StackPanel>
+                <Label x:Name="Ks1Label" Content="КС1" HorizontalAlignment="Center" MinWidth="60" HorizontalContentAlignment="Center" />
+                <xctk:IntegerUpDown x:Name="Ks1Data" AllowSpin="False" ShowButtonSpinner="False" FormatString="N0" AllowTextInput="True"  Value="0" Minimum="-4095"  Maximum="4095" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" MinWidth="40" MinHeight="30" MaxWidth="30" MaxHeight="30" ValueChanged="Data_ValueChanged"/>
+            </StackPanel>
+            <StackPanel>
+                <Label x:Name="Ks2Label" Content="КС2" HorizontalAlignment="Center" HorizontalContentAlignment="Center" MinWidth="60" />
+                <xctk:IntegerUpDown x:Name="Ks2Data" AllowSpin="False" ShowButtonSpinner="False" FormatString="N0" AllowTextInput="True"  Value="0" Minimum="-4095"  Maximum="4095" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" MinWidth="40" MinHeight="30" MaxWidth="30" MaxHeight="30" ValueChanged="Data_ValueChanged"/>
+            </StackPanel>
+            <StackPanel Visibility="Collapsed">
+                <Label x:Name="Ks110Label" Content="КС1(-10)" HorizontalAlignment="Center" HorizontalContentAlignment="Center" MinWidth="60" />
+                <xctk:IntegerUpDown x:Name="Ks110Data" AllowSpin="False" ShowButtonSpinner="False" FormatString="N0" AllowTextInput="True"  Value="0" Minimum="-4095"  Maximum="4095" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" MinWidth="40" MinHeight="30" MaxWidth="30" MaxHeight="30" ValueChanged="Data_ValueChanged"/>
+            </StackPanel>
+            <StackPanel Visibility="Collapsed">
+                <Label x:Name="Ks210Label" Content="КС2(-10)" HorizontalAlignment="Center" HorizontalContentAlignment="Center" MinWidth="60" />
+                <xctk:IntegerUpDown x:Name="Ks210Data" AllowSpin="False" ShowButtonSpinner="False" FormatString="N0" AllowTextInput="True"  Value="0" Minimum="-4095"  Maximum="4095" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" MinWidth="40" MinHeight="30" MaxWidth="30" MaxHeight="30" ValueChanged="Data_ValueChanged"/>
+            </StackPanel>
+            <StackPanel>
+                <Label x:Name="GetLabel" Content="Гет" HorizontalAlignment="Center" HorizontalContentAlignment="Center" MinWidth="60" />
+                <xctk:IntegerUpDown x:Name="GetData" AllowSpin="False" ShowButtonSpinner="False" FormatString="N0" AllowTextInput="True"  Value="0" Minimum="-4095"  Maximum="4095" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" MinWidth="40" MinHeight="30" MaxWidth="30" MaxHeight="30" ValueChanged="Data_ValueChanged"/>
+            </StackPanel>
+            <StackPanel Visibility="Collapsed">
+                <Label x:Name="Get6Label" Content="Гет(-6)" HorizontalAlignment="Center" HorizontalContentAlignment="Center" MinWidth="60" />
+                <xctk:IntegerUpDown x:Name="Get6Data" AllowSpin="False" ShowButtonSpinner="False" FormatString="N0" AllowTextInput="True"  Value="0" Minimum="-4095"  Maximum="4095" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" MinWidth="40" MinHeight="30" MaxWidth="30" MaxHeight="30" ValueChanged="Data_ValueChanged"/>
+            </StackPanel>
+            <StackPanel>
+            <Button x:Name="RewriteButton" Content="Перезаписать" Margin="0" Click="RewriteButton_Click" MinHeight="30" />
+                <RadioButton x:Name="RewriteFreqRb" Content="Частота"  Checked="RewriteFreqRB_Checked"/>
+                <RadioButton x:Name="RewriteTempRb" Content="Темп" IsChecked="True" Checked="RewriteTempRB_Checked" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>
